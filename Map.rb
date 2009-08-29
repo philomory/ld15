@@ -8,9 +8,18 @@ require 'Units'
 module LD15
   class Map
     attr_reader :width, :height
-    def initialize()
-      @terrain = Grid.new()
-      @units   = Grid.new()
+    def initialize(level)
+      terrain_array = load_data(level)
+      @terrain = Grid.from_array(terrain_array)
+      @width, @height = @terrain.width, @terrain.height
+      @units   = Grid.new(@width,@height)
+    end
+    
+    def load_data(path)
+      file = File.open(path,'r')
+      data = file.read
+      file.close
+      return data.split("\n").map {|row| row.split('')}.transpose
     end
     
     def terrain_at(x,y)

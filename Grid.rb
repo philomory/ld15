@@ -1,6 +1,13 @@
 module LD15
   class Grid
     
+    def self.from_array(array)
+      width = array.length
+      height = array[0].length
+      grid = self.new(width,height)
+      grid.instance_variable_set(:@spaces,array)
+    end
+    
     attr_reader :width, :height
     def initialize(width,height)
       @width, @height = width, height
