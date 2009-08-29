@@ -6,7 +6,7 @@ module LD15
       MAXHEALTH = 10
       MAXENERGY = 10
       SPEED     = 10
-      MOVE      = 2
+      MOVE      = 4
       def key
         'digger'
       end
