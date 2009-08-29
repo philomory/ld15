@@ -2,7 +2,7 @@ require 'Screen'
 require 'Constants'
 require 'Map'
 require 'Unit/Digger'
-require 'States/PlayerChoosingMove'
+require 'State/PlayerChoosingMove'
 
 module LD15
   class Game < Screen

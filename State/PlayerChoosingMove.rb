@@ -1,5 +1,6 @@
 require 'State'
 require 'Screen'
+require 'State/UnitMovedToSquare'
 
 module LD15
   class State < Screen
@@ -7,13 +8,15 @@ module LD15
       def initialize(game)
         @game = game
         @unit = game.current_unit
-        @available_tiles = @unit.available_tiles_for_movement
+        move_data = @unit.move_data
+        @available_tiles = move_data.available_tiles
+        @paths = move_data.paths
       end
 
       def click
         over = @game.mouse_is_over
         if over.in?(@available_tiles)
-          @game.current_state = UnitMovedToSquare.new(@game,over)
+          @game.current_state = UnitMovedToSquare.new(@game,over,@paths[over])
         end
       end
 
@@ -36,10 +39,6 @@ module LD15
             @game.highlight_square(over,Color::InvalidDestHighlight)
           end
         end
-      end
-      
-      def draw_unit_highlight
-        @game.highlight_square(@unit.gridsquare,Color::ActiveUnitHighlight)
       end
       
       def draw_move_range

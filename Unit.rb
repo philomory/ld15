@@ -1,4 +1,5 @@
 require 'GridSquare'
+require 'MoveData'
 
 module LD15
   class Unit
@@ -18,8 +19,9 @@ module LD15
       GridSquare.new(@x,@y)
     end
     
-    def available_tiles_for_movement
+    def move_data
       available_tiles = []
+      paths = {self.gridsquare => []}
       edge_tiles = [self.gridsquare]
       new_edge_tiles = []
       @move.times do
@@ -29,6 +31,7 @@ module LD15
             test_tile = tile.send(dir)
             if @map.can_pass?(self,test_tile.x,test_tile.y) and not (available_tiles + edge_tiles).include?(test_tile)
               new_edge_tiles.push(test_tile)
+              paths[test_tile] = paths[tile].dup.unshift(tile)
             end #if
           end #each do |dir|
         end #each do |tile|
@@ -37,7 +40,7 @@ module LD15
       end #@move.times do
       available_tiles += edge_tiles
       available_tiles.uniq!.reject! {|tile| @map.unit_at(tile.x,tile.y)}
-      return available_tiles
+      return MoveData.new(available_tiles,paths)
     end
     
   end
