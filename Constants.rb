@@ -21,6 +21,8 @@ module LD15
   end #module ZOrder
   module Color
     MoveHighlight = 0x779aFFFF
-    UnderCursorHighlight = 0x77002FFF
+    ValidDestHighlight = 0xAA002FFF
+    InvalidDestHighlight = 0xAADB2400
+    ActiveUnitHighlight = 0xAA00FF00
   end
 end

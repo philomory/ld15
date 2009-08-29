@@ -14,9 +14,13 @@ module LD15
       @healt, @energy = @maxhealth, @maxenergy
     end
     
+    def gridsquare
+      GridSquare.new(@x,@y)
+    end
+    
     def available_tiles_for_movement
       available_tiles = []
-      edge_tiles = [GridSquare.new(@x,@y)]
+      edge_tiles = [self.gridsquare]
       new_edge_tiles = []
       @move.times do
         new_edge_tiles = []

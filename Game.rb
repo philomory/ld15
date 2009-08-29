@@ -19,7 +19,7 @@ module LD15
     
     def draw
       self.draw_map
-      self.draw_mouse_square
+      @current_state.draw
       #self.draw_move_range
     end
     
@@ -38,9 +38,9 @@ module LD15
       self.draw_square(x_pos,y_pos,Sizes::TileWidth,Sizes::TileHeight,color,ZOrder::Highlight)
     end
     
-    def draw_mouse_square
-      if (square=self.mouse_is_over)
-        self.highlight_square(square,Color::UnderCursorHighlight)
+    def button_down(id)
+      if id == Gosu::MsLeft
+        @current_state.click
       end
     end
     
