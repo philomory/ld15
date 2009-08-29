@@ -12,6 +12,7 @@ module LD15
       @terrain = Grid.new()
       @units   = Grid.new()
     end
+    
     def terrain_at(x,y)
       if x.in?(0...@width) and y.in?(0...@height)
         @terrain[x,y]
@@ -26,6 +27,23 @@ module LD15
       else
         OutOfBounds.new
       end
+    end
+    
+    def each
+      @terrain.each_with_coords |terrain,x,y| do
+        yield terrain, @units[x,y]
+      end
+    end
+    
+    def each_with_coords
+      @terrain.each_with_coords |terrain,x,y| do
+        yield terrain, @units[x,y], x, y
+      end
+    end
+    
+    
+    def all_units
+      @units.list
     end
   end
 end

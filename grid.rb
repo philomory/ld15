@@ -30,5 +30,13 @@ module LD15
       end
     end
     
+    def flatten
+      @spaces.flatten
+    end
+    
+    def list
+      self.flatten.compact
+    end
+    
   end
 end
