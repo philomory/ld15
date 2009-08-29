@@ -1,6 +1,6 @@
 module LD15
   class Unit
-    attr_reader :x, :y, :facing :health, :energy
+    attr_reader :x, :y, :facing, :health, :energy, :speed, :readiness
     def initialize(x,y,facing)
       @x, @y, @facing = x, y, facing
       @health = self.class.const_get('HEALTH')

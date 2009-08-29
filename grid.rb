@@ -6,6 +6,7 @@ module LD15
       height = array[0].length
       grid = self.new(width,height)
       grid.instance_variable_set(:@spaces,array)
+      return grid
     end
     
     attr_reader :width, :height

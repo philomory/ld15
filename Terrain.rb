@@ -6,7 +6,7 @@ module LD15
       @x, @y = x, y
     end
     
-    def load_terrain
+    def self.load_terrain
       %w{Dirt EmptySpace SolidWall OutOfBounds}.each do |terrain|
         require "Terrain/#{terrain}"
       end

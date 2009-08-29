@@ -2,8 +2,10 @@ require 'gosu'
 require 'helper'
 
 require 'Screen'
+require 'Game'
 
 require 'FPSCounter'
+require 'ImageManager'
 
 module LD15
   class MainWindow < Gosu::Window
@@ -30,8 +32,9 @@ module LD15
        
       super(860,640,false)
       self.caption = "LD15 Game"
+      ImageManager.load_images
       @current_screen = Game.new('data/level1.txt')
-      @fps = Counter::FPSCounter.new
+      @fps = FPSCounter.new
     end #def initialize
     
     def update

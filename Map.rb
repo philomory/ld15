@@ -3,15 +3,21 @@ require 'helper'
 require 'Grid'
 require 'Terrain'
 LD15::Terrain.load_terrain
-require 'Units'
+require 'Unit'
 
 module LD15
   class Map
+    
+    KEYS = {
+      '#' => Terrain::SolidWall,
+      '~' => Terrain::Dirt,
+      '.' => Terrain::EmptySpace
+    }
+    
     attr_reader :width, :height
     def initialize(level)
-      terrain_array = load_data(level)
-      @terrain = Grid.from_array(terrain_array)
-      @width, @height = @terrain.width, @terrain.height
+      @terrain = load_data(level)
+      
       @units   = Grid.new(@width,@height)
     end
     
@@ -19,7 +25,14 @@ module LD15
       file = File.open(path,'r')
       data = file.read
       file.close
-      return data.split("\n").map {|row| row.split('')}.transpose
+      array = data.split("\n").map {|row| row.split('')}.transpose
+      data_grid = Grid.from_array(array)
+      @width, @height = data_grid.width, data_grid.height
+      terrain_grid = Grid.new(@width,@height)
+      data_grid.each_with_coords do |key,x,y|
+        terrain_grid[x,y] = KEYS[key].new(x,y)
+      end
+      return terrain_grid
     end
     
     def terrain_at(x,y)
@@ -39,13 +52,13 @@ module LD15
     end
     
     def each
-      @terrain.each_with_coords |terrain,x,y| do
+      @terrain.each_with_coords do |terrain,x,y|
         yield terrain, @units[x,y]
       end
     end
     
     def each_with_coords
-      @terrain.each_with_coords |terrain,x,y| do
+      @terrain.each_with_coords do |terrain,x,y|
         yield terrain, @units[x,y], x, y
       end
     end
