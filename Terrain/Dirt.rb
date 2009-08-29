@@ -6,6 +6,9 @@ module LD15
       def key
         'dirt'
       end
+      def passable?
+        false
+      end
     end
   end
 end

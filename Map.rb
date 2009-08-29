@@ -4,6 +4,7 @@ require 'Grid'
 require 'Terrain'
 LD15::Terrain.load_terrain
 require 'Unit'
+require 'OutOfBounds'
 
 module LD15
   class Map
@@ -67,9 +68,15 @@ module LD15
       end
     end
     
-    
     def all_units
       @units.list
     end
+    
+    def can_pass?(unit,x,y)
+      t = self.terrain_at(x,y)
+      u = self.unit_at(x,y)
+      return t.passable? && (!u || (u.faction == unit.faction))
+    end
+    
   end
 end

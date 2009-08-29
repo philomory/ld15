@@ -6,6 +6,9 @@ module LD15
       def key
         'floor'
       end
+      def passable?
+        true
+      end
     end
   end
 end

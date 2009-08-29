@@ -7,7 +7,7 @@ module LD15
   class Game < Screen
     def initialize(level)
       @map = Map.new(level)
-      @current_unit = Unit::Digger.new(@map,10,18,:north)
+      @current_unit = Unit::Digger.new(@map,10,18,:north,0)
       @map.add_unit(@current_unit)
     end
     def update
@@ -30,8 +30,10 @@ module LD15
     
     def draw_move_range
       available_tiles = @current_unit.available_tiles_for_movement
-      available_tiles.each do |tile| 
-        self.draw_square(tile.x,tile.y,Sizes::TileWidth,Sizes::TileHeight,0x999aFFFF)
+      available_tiles.each do |tile|
+        x_pos = tile.x*Sizes::TileHeight
+        y_pos = tile.y*Sizes::TileWidth
+        self.draw_square(x_pos,y_pos,Sizes::TileWidth,Sizes::TileHeight,0x779aFFFF,ZOrder::Highlight)
       end
     end
   end

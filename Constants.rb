@@ -10,7 +10,7 @@ module LD15
   module ZOrder
     Background = 0
     Terrain = 1
-    Remains = 2
+    Highlight = 2
     Units = 3
     Effects = 4
     HUD = 5
