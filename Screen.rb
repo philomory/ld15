@@ -44,6 +44,14 @@ module LD15
       MainWindow.button_id_to_char(id)
     end
     
+    def mouse_x
+      MainWindow.mouse_x
+    end
+    
+    def mouse_y
+      MainWindow.mouse_y
+    end
+    
     def wordwrap(message,width,font)
       word_array = message.split(' ')
       lines = [word_array.shift]

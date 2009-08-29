@@ -6,7 +6,7 @@ module LD15
     module_function
     def load_images
       
-      %w{dirt floor wall digger}.each do |key|
+      %w{dirt floor wall digger pointer}.each do |key|
         path = File.join('media',key + '.png')
         IMAGES[key] = Gosu::Image.new(MainWindow.instance,path,true)
       end

@@ -54,6 +54,7 @@ module LD15
       # In the future, though, I hope to throw some intelligent crash-logging
       # into the picture.
       @current_screen.draw # rescue nil
+      ImageManager.image('pointer').draw(self.mouse_x-6,self.mouse_y,ZOrder::Pointer)
       self.caption = "LD15 Game: #{@fps.fps} frames per second." 
     end
     

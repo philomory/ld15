@@ -14,8 +14,13 @@ module LD15
     Units = 3
     Effects = 4
     HUD = 5
-    Splash = 98
-    TopMessage = 99
+    Splash = 97
+    TopMessage = 98
+    Pointer = 99
     Fade = 100
   end #module ZOrder
+  module Color
+    MoveHighlight = 0x779aFFFF
+    UnderCursorHighlight = 0x77002FFF
+  end
 end
