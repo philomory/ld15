@@ -30,7 +30,7 @@ module LD15
       @width, @height = data_grid.width, data_grid.height
       terrain_grid = Grid.new(@width,@height)
       data_grid.each_with_coords do |key,x,y|
-        terrain_grid[x,y] = KEYS[key].new(x,y)
+        terrain_grid[x,y] = KEYS[key].new(self,x,y)
       end
       return terrain_grid
     end
@@ -49,6 +49,10 @@ module LD15
       else
         OutOfBounds.new
       end
+    end
+    
+    def add_unit(unit)
+      @units[unit.x,unit.y] = unit
     end
     
     def each

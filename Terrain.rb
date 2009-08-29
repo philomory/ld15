@@ -1,9 +1,9 @@
 module LD15
   class Terrain
     
-    attr_reader :x, :y
-    def initialize(x,y)
-      @x, @y = x, y
+    attr_reader :map, :x, :y
+    def initialize(map,x,y)
+      @map, @x, @y = map, x, y
     end
     
     def self.load_terrain
