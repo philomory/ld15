@@ -7,9 +7,11 @@ module LD15
       MAXENERGY = 10
       SPEED     = 10
       MOVE      = 4
+      PATTERNS = [DigPatterns::Line.new(3),DigPatterns::ForwardBroad.new]
       def key
         'digger'
       end
+
     end
   end
 end

@@ -1,4 +1,5 @@
 require 'SidebarItem'
+require 'SidebarItemDisabled'
 
 module LD15
   class SidebarMenu
@@ -7,13 +8,32 @@ module LD15
       @title_image  = Gosu::Image.from_text(MainWindow.instance,@title,Gosu::default_font_name,Sizes::SidebarItemHeight-4,2,Sizes::SidebarItemWidth,:center)
       @parent = eval('self',blk.binding,__FILE__,__LINE__)
       @items_array  = []
+      @key_equivalents = {}
       blk.call(self)
     end
     
-    def add(title,&blk)
+    def add(title,*key_equivs,&blk)
       x = Sizes::SidebarItemEdge
       y = Sizes::SidebarMargin + @title_image.height + 4 + Sizes::SidebarItemHeight * @items_array.length
-      @items_array << SidebarItem.new(title,x,y,Sizes::SidebarItemWidth,Sizes::SidebarItemHeight,&blk)
+      item = SidebarItem.new(title,x,y,Sizes::SidebarItemWidth,Sizes::SidebarItemHeight,&blk)
+      @items_array << item
+      key_equivs.each do |key|
+        @key_equivalents[key] = item
+      end    
+    end
+    
+    def disabled(title)
+      x = Sizes::SidebarItemEdge
+      y = Sizes::SidebarMargin + @title_image.height + 4 + Sizes::SidebarItemHeight * @items_array.length
+      item = SidebarItemDisabled.new(title,x,y,Sizes::SidebarItemWidth,Sizes::SidebarItemHeight) {}
+      @items_array << item
+    end
+    
+    def button_down(id)
+      item = @key_equivalents[id]
+      if item
+        item.clicked
+      end
     end
     
     def each

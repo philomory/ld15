@@ -37,6 +37,17 @@ unless {}.respond_to?(:default_proc=)
   end  
 end
 
+def rot_cw(dir)
+  {:north => :east,:east => :south, :south => :west, :west => :north}[dir]
+end
+
+def rot_180(dir)
+  rot_cw(rot_cw(dir))
+
+def rot_ccw(dir)
+  rot_cw(rot_cw(rot_cw(dir)))
+end
+
 #helper hash to get Gosu button constant names
 module OperationLambda
 

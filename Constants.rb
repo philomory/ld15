@@ -32,6 +32,8 @@ module LD15
     ValidDestHighlight = 0xAA002FFF
     InvalidDestHighlight = 0xAADB2400
     ActiveUnitHighlight = 0xAA00FF00
+    SidebarItem = 0xFFFFFFFF
+    SidebarItemDisabled = 0xFFAAAAAA
   end
   
   # Not sure if we're going to need to have an actual Faction class, doesn't seem necessary.

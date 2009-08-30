@@ -13,14 +13,40 @@ module LD15
       end
       @readiness = 0
       @healt, @energy = @maxhealth, @maxenergy
+      @moved, @acted = false, false
     end
     
     def gridsquare
       GridSquare.new(@x,@y)
     end
     
+    def available_dig_directions
+      [:north,:south,:east,:west]
+    end
+    
     def tick
       @readiness += @speed
+    end
+    
+    def move_to(square)
+      @x, @y, oldx, oldy = square.x, square.y, x, y
+      @map.unit_moved_from(self,oldx,oldy)
+      @moved = true
+    end
+    
+    def moved?
+      @moved
+    end
+    
+    def end_turn
+      if @acted
+        @readiness -= 100
+      elsif @moved
+        @readiness -= 60
+      else
+        @readiness -= 30
+      end
+      @acted, @moved = false, false
     end
     
     def move_data

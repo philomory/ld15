@@ -8,8 +8,8 @@ module LD15
       @menu.draw if @menu
     end
     
-    def draw_unit_highlight
-      @game.highlight_square(@unit.gridsquare,Color::ActiveUnitHighlight)
+    def draw_unit_highlight(unit)
+      @game.highlight_square(unit.gridsquare,Color::ActiveUnitHighlight)
     end
     
     def click

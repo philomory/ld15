@@ -52,6 +52,11 @@ module LD15
       end
     end
     
+    def unit_moved_from(unit,x,y)
+      @units[x,y] = nil
+      @units[unit.x,unit.y] = unit
+    end
+    
     def add_unit(unit)
       @units[unit.x,unit.y] = unit
     end

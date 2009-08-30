@@ -3,6 +3,7 @@ require 'Constants'
 require 'Map'
 require 'Unit/Digger'
 require 'State/PlayerChoosingMove'
+require 'State/PlayerChoosingAction'
 
 module LD15
   class Game < Screen
@@ -22,6 +23,12 @@ module LD15
       end
     end
     
+    def end_turn
+      @current_unit.end_turn
+      @current_unit = nil
+      @current_state = nil
+    end
+    
     def pass_time
       @map.all_units.each do |unit|
         unit.tick
@@ -38,9 +45,9 @@ module LD15
     def activate_unit(unit)
       @current_unit = unit
       if unit.faction == Factions::Player
-        @current_state = State::PlayerChoosingMove.new(self)
+        @current_state = State::PlayerChoosingAction.new(self)
       else
-        @current_state = State::EnemyChoosingMove.new(self)
+        @current_state = State::EnemyChoosingAction.new(self)
       end
     end
     
@@ -71,6 +78,8 @@ module LD15
     def button_down(id)
       if id == Gosu::MsLeft
         @current_state.click
+      else
+        @current_state.menu.button_down(id) if @current_state.menu
       end
     end
     

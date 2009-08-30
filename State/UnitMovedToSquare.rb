@@ -8,15 +8,15 @@ module LD15
         @game,@dest,@path = game,dest,path
         @unit = game.current_unit
         @menu = SidebarMenu.new("Do you wish to move here?") do |m|
-          m.add("Yes") {@unit.move_to(@dest);@game.current_state = nil}
-          m.add("No") {@game.current_state = PlayerChoosingMove.new(@game)}
+          m.add("Yes",Gosu::KbEnter,Gosu::KbReturn,Gosu::KbY) {@unit.move_to(@dest);@game.current_state = nil}
+          m.add("No",Gosu::KbEscape,Gosu::KbN) {@game.current_state = PlayerChoosingMove.new(@game)}
         end
       end
 
 
       def draw
         super
-        self.draw_unit_highlight
+        self.draw_unit_highlight(@unit)
         self.draw_path
         self.draw_dest
       end
