@@ -12,7 +12,7 @@ module LD15
       STRENGTH  = 2
       DEFENSE   = 1
       PATTERNS = [DigPatterns::Line.new(1)]
-      AI = Behaviors::Stalker      
+      AI = Behaviors::Aggressive      
       
       
       def key

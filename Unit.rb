@@ -74,7 +74,7 @@ module LD15
             test_tile = tile.send(dir)
             if @map.can_pass?(self,test_tile.x,test_tile.y) and not (available_tiles + edge_tiles).include?(test_tile)
               new_edge_tiles.push(test_tile)
-              paths[test_tile] = paths[tile].dup.unshift(tile)
+              paths[test_tile] = paths[tile].dup.push(tile)
             end #if
           end #each do |dir|
         end #each do |tile|

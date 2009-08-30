@@ -20,19 +20,23 @@ module LD15
           end
         end
         if target && moves == 0
-          return Plan.new(nil,nil)
+          return Plan.new(nil,self.action_for_target(target))
         elsif target && moves == 1
           dest = reachable.paths[target[:square]][0]
-          path = walkable.paths[dest]
-          return Plan.new(path,nil)
+          path = (walkable.paths[dest]+[dest])
+          return Plan.new(path,self.action_for_target(target))
         elsif target
           dest = reachable.paths[target[:square]][0]
-          path = walkable.paths[dest][0,unit.move]
+          path = (walkable.paths[dest]+[dest])[0,unit.move+1]
           return Plan.new(path,nil)
         else
           return Plan.new(nil,nil)
         end   
       end      
+
+      def action_for_target(target)
+        nil
+      end
 
       def evaluate_targets(available_targets)
         return available_targets[rand(available_targets.length)]
