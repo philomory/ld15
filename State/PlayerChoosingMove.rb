@@ -25,6 +25,7 @@ module LD15
       end
 
       def draw
+        super
         self.draw_unit_highlight
         self.draw_move_range
         self.draw_mouse_square

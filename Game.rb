@@ -51,7 +51,6 @@ module LD15
     def draw
       self.draw_map
       @current_state.draw
-      #self.draw_move_range
     end
     
     def draw_map
