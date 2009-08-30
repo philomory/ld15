@@ -9,12 +9,43 @@ module LD15
     attr_accessor :current_state, :current_unit
     def initialize(level)
       @map = Map.new(level)
-      @current_unit = Unit::Digger.new(@map,10,18,:north,0)
-      @current_state = State::PlayerChoosingMove.new(self)
+      @current_unit = Unit::Digger.new(@map,10,18,:north,Factions::Player)
+      #@current_state = State::PlayerChoosingMove.new(self)
       @map.add_unit(@current_unit)
     end
     def update
-      @current_state.update
+      if @current_state
+        @current_state.update
+      else
+        self.time_passing
+        @current_state.update
+      end
+    end
+    
+    def pass_time
+      @map.all_units.each do |unit|
+        unit.tick
+      end
+    end
+    
+    def time_passing
+      until self.ready_unit do
+        self.pass_time
+      end
+      self.activate_unit(self.ready_unit)
+    end
+    
+    def activate_unit(unit)
+      @current_unit = unit
+      if unit.faction == Factions::Player
+        @current_state = State::PlayerChoosingMove.new(self)
+      else
+        @current_state = State::EnemyChoosingMove.new(self)
+      end
+    end
+    
+    def ready_unit
+      @map.all_units.find_all {|unit| unit.readiness >= 100}.sort_by {|u| [u.readiness,u.speed,u.object_id]}.first
     end
     
     def draw

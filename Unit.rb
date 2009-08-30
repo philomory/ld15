@@ -19,6 +19,10 @@ module LD15
       GridSquare.new(@x,@y)
     end
     
+    def tick
+      @readiness += @speed
+    end
+    
     def move_data
       available_tiles = []
       paths = {self.gridsquare => []}

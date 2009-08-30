@@ -5,6 +5,13 @@ module LD15
   module Sizes
     TileHeight = 32
     TileWidth  = 32
+    SidebarWidth = 220
+    SidebarHeight = 640
+    SidebarItemWidth = 200
+    SidebarItemHeight = 32
+    SidebarEdge = 640
+    SidebarMargin = (SidebarWidth - SidebarItemWidth)/2
+    SidebarItemEdge = SidebarEdge + SidebarMargin
   end
   # ZOrder provides constants for use in Z-coordinates for draw calls.
   module ZOrder
@@ -13,7 +20,8 @@ module LD15
     Highlight = 2
     Units = 3
     Effects = 4
-    HUD = 5
+    SidebarMenu = 5
+    SidebarItems = 6
     Splash = 97
     TopMessage = 98
     Pointer = 99
@@ -25,4 +33,11 @@ module LD15
     InvalidDestHighlight = 0xAADB2400
     ActiveUnitHighlight = 0xAA00FF00
   end
+  
+  # Not sure if we're going to need to have an actual Faction class, doesn't seem necessary.
+  module Factions
+    Player = 0
+    Enemy  = 1
+  end
+  
 end

@@ -6,6 +6,7 @@ require 'Game'
 
 require 'FPSCounter'
 require 'ImageManager'
+require 'SidebarItem'
 
 module LD15
   class MainWindow < Gosu::Window
