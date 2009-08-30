@@ -1,4 +1,6 @@
 require 'Unit'
+require 'DigPatterns/Line'
+require 'DigPatterns/ForwardBroad'
 
 module LD15
   class Unit

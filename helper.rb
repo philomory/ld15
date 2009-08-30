@@ -43,6 +43,7 @@ end
 
 def rot_180(dir)
   rot_cw(rot_cw(dir))
+end
 
 def rot_ccw(dir)
   rot_cw(rot_cw(rot_cw(dir)))

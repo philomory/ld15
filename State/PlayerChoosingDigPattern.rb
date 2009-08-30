@@ -1,5 +1,6 @@
 require 'Screen'
 require 'State'
+require 'State/PlayerChoosingDigDirection'
 
 module LD15
   class State < Screen
@@ -9,7 +10,7 @@ module LD15
         @unit = @game.current_unit
         @menu = SidebarMenu.new("Choose a Pattern:") do |m|
           @unit.patterns.each_with_index do |pattern,index|
-            key_equiv = Gosu.char_to_button_id(((index+1)%10).to_s) if index < 9
+            key_equiv = Gosu::Window.char_to_button_id(((index+1)%10).to_s) if index < 9
             title = if key_equiv
               "#{index+1}. #{pattern.title}"
             else
@@ -22,10 +23,10 @@ module LD15
       end
       
       def chooses(pattern)
-        @game.current_screen = if pattern.directions
-          PlayerChoosesDigDirection.new(@game,pattern)
+        @game.current_state = if pattern.directions
+          PlayerChoosingDigDirection.new(self,@game,pattern)
         else
-          PlayerConfirmsDig.new(@game,pattern.squares(@unit.gridsquare))
+          PlayerConfirmsDig.new(self,@game,pattern.squares(@unit.gridsquare))
         end
       end
       

@@ -29,10 +29,16 @@ module LD15
       @items_array << item
     end
     
+    def key_only(*key_equivs,&blk)
+      key_equivs.each do |key|
+        @key_equivalents[key] = blk
+      end
+    end
+    
     def button_down(id)
       item = @key_equivalents[id]
       if item
-        item.clicked
+        item.call
       end
     end
     

@@ -14,9 +14,10 @@ module LD15
       @title_image.draw(@x,@y,ZOrder::SidebarItems)
     end
     
-    def clicked
+    def call
       @action.call
     end
+    alias_method :clicked, :call
     
     def include?(x_pos,y_pos)
       return x_pos.in?(@x...@x+@width) && y_pos.in?(@y...@y+@height)

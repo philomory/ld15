@@ -21,5 +21,8 @@ module LD15
       end
     end
     
+    def clicked_square(square)
+    end
+    
   end
 end
