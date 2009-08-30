@@ -13,10 +13,9 @@ module LD15
         @paths = move_data.paths
       end
 
-      def click
-        over = @game.mouse_is_over
-        if over.in?(@available_tiles)
-          @game.current_state = UnitMovedToSquare.new(@game,over,@paths[over])
+      def clicked_square(square)
+        if square.in?(@available_tiles)
+          @game.current_state = UnitMovedToSquare.new(@game,square,@paths[square])
         end
       end
 

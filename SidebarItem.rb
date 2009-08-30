@@ -15,6 +15,7 @@ module LD15
     end
     
     def clicked
+      puts "Clicked!"
       @action.call
     end
     

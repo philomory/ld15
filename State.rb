@@ -13,6 +13,12 @@ module LD15
     end
     
     def click
+      over = @game.mouse_is_over
+      if over.is_a?(GridSquare)
+        self.clicked_square(over)
+      elsif over.is_a?(SidebarItem)
+        over.clicked
+      end
     end
     
   end

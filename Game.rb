@@ -82,13 +82,11 @@ module LD15
         if @current_state.menu
           @current_state.menu.each do |item|
             if item.include?(x,y)
-              item.clicked
-              break
+              return item
             end
           end
         end
       end
     end
-
   end
 end

@@ -28,9 +28,5 @@ module LD15
         item.draw
       end
     end
-    
-    def click
-    end
-    
   end
 end
