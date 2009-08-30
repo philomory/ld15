@@ -1,12 +1,12 @@
-require 'gosu'
-require 'helper'
+#require 'gosu'
+#require 'helper'
 
-require 'Screen'
-require 'Game'
+#require 'Screen'
+#require 'Game'
 
-require 'FPSCounter'
-require 'ImageManager'
-require 'SidebarItem'
+#require 'FPSCounter'
+#require 'ImageManager'
+#require 'SidebarItem'
 
 module LD15
   class MainWindow < Gosu::Window

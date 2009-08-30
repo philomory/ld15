@@ -1,4 +1,4 @@
-require 'helper'
+#require 'helper'
 
 module LD15
   module DigPatterns
@@ -11,7 +11,9 @@ module LD15
       end
       
       def squares(start,dir)
-        return ([dir]*@length).inject(self.gridsquare) {|sq,dir| sq.send(dir)}
+        squares = []
+        @length.times {squares << (squares[-1] || start).send(dir)}
+        return squares
       end
     end
   end

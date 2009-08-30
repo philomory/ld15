@@ -8,7 +8,7 @@ module LD15
     
     def self.load_terrain
       %w{Dirt EmptySpace SolidWall}.each do |terrain|
-        require "Terrain/#{terrain}"
+        #require "Terrain/#{terrain}"
       end
     end
     

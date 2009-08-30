@@ -1,5 +1,5 @@
-require 'Screen'
-require 'SidebarMenu'
+#require 'Screen'
+#require 'SidebarMenu'
 
 module LD15
   class State < Screen

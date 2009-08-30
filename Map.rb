@@ -1,10 +1,10 @@
-require 'helper'
+#require 'helper'
 
-require 'Grid'
-require 'Terrain'
+#require 'Grid'
+#require 'Terrain'
 LD15::Terrain.load_terrain
-require 'Unit'
-require 'OutOfBounds'
+#require 'Unit'
+#require 'OutOfBounds'
 
 module LD15
   class Map
@@ -44,11 +44,17 @@ module LD15
       end
     end
     
+    def dig(x,y)
+      if @terrain[x,y].digable?
+        @terrain[x,y] = Terrain::EmptySpace.new(self,x,y)
+      end
+    end
+    
     def unit_at(x,y)
       if x.in?(0...@width) and y.in?(0...@height)
         @units[x,y]
       else
-        OutOfBounds.new
+        nil
       end
     end
     

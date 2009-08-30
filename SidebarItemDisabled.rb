@@ -1,5 +1,5 @@
-require 'Constants'
-require 'SidebarItem'
+#require 'Constants'
+#require 'SidebarItem'
 
 module LD15
   class SidebarItemDisabled < SidebarItem

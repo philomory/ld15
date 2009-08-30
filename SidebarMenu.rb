@@ -1,5 +1,5 @@
-require 'SidebarItem'
-require 'SidebarItemDisabled'
+#require 'SidebarItem'
+#require 'SidebarItemDisabled'
 
 module LD15
   class SidebarMenu

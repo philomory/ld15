@@ -1,6 +1,6 @@
-require 'State'
-require 'Screen'
-require 'State/UnitMovedToSquare'
+#require 'State'
+#require 'Screen'
+#require 'State/UnitMovedToSquare'
 
 module LD15
   class State < Screen

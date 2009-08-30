@@ -1,4 +1,4 @@
-require 'Constants'
+#require 'Constants'
 
 module LD15
   class Screen

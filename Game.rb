@@ -1,18 +1,23 @@
-require 'Screen'
-require 'Constants'
-require 'Map'
-require 'Unit/Digger'
-require 'State/PlayerChoosingMove'
-require 'State/PlayerChoosingAction'
+#require 'Screen'
+#require 'Constants'
+#require 'Map'
+#require 'Unit/Digger'
+#require 'Unit/Soldier'
+#require 'State/PlayerChoosingMove'
+#require 'State/PlayerChoosingAction'
+#require 'State/AIDisplayMove'
+
+##require 'State/AIDisplayAction'
+##require 'State/AIDisplayEndTurn'
 
 module LD15
   class Game < Screen
     attr_accessor :current_state, :current_unit
     def initialize(level)
       @map = Map.new(level)
-      @current_unit = Unit::Digger.new(@map,10,18,:north,Factions::Player)
-      #@current_state = State::PlayerChoosingMove.new(self)
-      @map.add_unit(@current_unit)
+      @map.add_unit(Unit::Digger.new(@map,10,18,:north,Factions::Player))
+      @map.add_unit(Unit::Soldier.new(@map,8,16,:north,Factions::Player))
+      @map.add_unit(Unit::Soldier.new(@map,0,19,:east,Factions::Enemy))
     end
     def update
       if @current_state
@@ -47,7 +52,14 @@ module LD15
       if unit.faction == Factions::Player
         @current_state = State::PlayerChoosingAction.new(self)
       else
-        @current_state = State::EnemyChoosingAction.new(self)
+        plan = unit.plan_from_ai
+        if plan.path
+          @current_state = State::AIDisplayMove.new(self,plan)
+        elsif plan.action
+          @current_state = State::AIDisplayAction.new(self,plan)
+        else
+          @current_state = State::AIDisplayEndTurn.new(self)
+        end
       end
     end
     

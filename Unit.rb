@@ -1,13 +1,14 @@
-require 'GridSquare'
-require 'MoveData'
+#require 'GridSquare'
+#require 'MoveData'
 
 module LD15
   class Unit
     
     attr_reader :map, :x, :y, :facing, :health, :maxhealth, :energy, :maxenergy, :speed, :readiness, :move, :faction, :patterns
+    attr_writer :facing
     def initialize(map,x,y,facing,faction)
       @map, @x, @y, @facing, @faction = map, x, y, facing, faction
-      %w{MAXHEALTH MAXENERGY SPEED MOVE PATTERNS}.each do |name|
+      %w{MAXHEALTH MAXENERGY SPEED MOVE STRENGTH DEFENSE PATTERNS AI}.each do |name|
         ivar = '@' + name.downcase
         self.instance_variable_set(ivar,self.class.const_get(name))
       end
@@ -18,6 +19,10 @@ module LD15
     
     def gridsquare
       GridSquare.new(@x,@y)
+    end
+    
+    def inspect
+      "#<#{self.class}:#{self.object_id.to_s(16)} @x=#{@x}, @y=#{@y}>"
     end
     
     def available_dig_directions
@@ -38,6 +43,14 @@ module LD15
       @moved
     end
     
+    def acted
+      @acted = true
+    end
+    
+    def acted?
+      @acted
+    end
+    
     def end_turn
       if @acted
         @readiness -= 100
@@ -49,12 +62,12 @@ module LD15
       @acted, @moved = false, false
     end
     
-    def move_data
+    def range_data(range)
       available_tiles = []
       paths = {self.gridsquare => []}
       edge_tiles = [self.gridsquare]
       new_edge_tiles = []
-      @move.times do
+      range.times do
         new_edge_tiles = []
         edge_tiles.each do |tile|
           [:north,:south,:east,:west].each do |dir|
@@ -67,10 +80,34 @@ module LD15
         end #each do |tile|
         available_tiles += edge_tiles
         edge_tiles = new_edge_tiles
-      end #@move.times do
+      end #range.times do
       available_tiles += edge_tiles
-      available_tiles.uniq!.reject! {|tile| @map.unit_at(tile.x,tile.y)}
       return MoveData.new(available_tiles,paths)
+    end
+    
+    def reachable_tiles(from_tiles)
+      reachable = []
+      paths = {}
+      from_tiles.each do |tile|
+        [:north,:south,:east,:west].each do |dir|
+          new_tile = tile.send(dir)
+          unless @map.terrain_at(*new_tile).is_a?(OutOfBounds)
+            reachable << new_tile
+            paths[new_tile] = [tile]
+          end
+        end
+      end
+      return MoveData.new(reachable,paths)
+    end
+    
+    def plan_from_ai(behavior = @ai)
+      return behavior.plan(self)
+    end
+    
+    def move_data
+      data = self.range_data(@move)
+      data.available_tiles.uniq!.reject! {|tile| @map.unit_at(tile.x,tile.y)}
+      return data
     end
     
   end

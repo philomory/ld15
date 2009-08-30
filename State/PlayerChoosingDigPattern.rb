@@ -1,6 +1,6 @@
-require 'Screen'
-require 'State'
-require 'State/PlayerChoosingDigDirection'
+#require 'Screen'
+#require 'State'
+#require 'State/PlayerChoosingDigDirection'
 
 module LD15
   class State < Screen

@@ -1,7 +1,7 @@
-require 'Screen'
-require 'State'
-require 'State/PlayerChoosingMove'
-require 'State/PlayerChoosingDigPattern'
+#require 'Screen'
+#require 'State'
+#require 'State/PlayerChoosingMove'
+#require 'State/PlayerChoosingDigPattern'
 
 module LD15
   class State < Screen

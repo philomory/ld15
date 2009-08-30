@@ -1,4 +1,4 @@
-require 'Terrain'
+#require 'Terrain'
 
 module LD15
   class Terrain
@@ -8,6 +8,9 @@ module LD15
       end
       def passable?
         false
+      end
+      def digable?
+        true
       end
     end
   end

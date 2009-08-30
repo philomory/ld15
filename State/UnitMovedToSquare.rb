@@ -1,5 +1,5 @@
-require 'State'
-require 'Screen'
+#require 'State'
+#require 'Screen'
 
 module LD15
   class State < Screen
@@ -8,7 +8,7 @@ module LD15
         @game,@dest,@path = game,dest,path
         @unit = game.current_unit
         @menu = SidebarMenu.new("Do you wish to move here?") do |m|
-          m.add("Yes",Gosu::KbEnter,Gosu::KbReturn,Gosu::KbY) {@unit.move_to(@dest);@game.current_state = nil}
+          m.add("Yes",Gosu::KbEnter,Gosu::KbReturn,Gosu::KbY) {@unit.move_to(@dest);@game.current_state = PlayerChoosingAction.new(@game)}
           m.add("No",Gosu::KbEscape,Gosu::KbN) {@game.current_state = PlayerChoosingMove.new(@game)}
         end
       end
