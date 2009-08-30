@@ -11,5 +11,15 @@ module LD15
       y = Sizes::SidebarMargin + Sizes::SidebarItemHeight * @items_array.length
       SidebarItem.new(title,x,y,Sizes::SidebarItemWidth,Sizes::SidebarItemHeight,&blk)
     end
+    
+    def each
+      @items_array.each do |item|
+        yield item
+      end
+    end
+    
+    def click
+    end
+    
   end
 end

@@ -80,7 +80,14 @@ module LD15
       if x.in?(0...@map.width*Sizes::TileWidth) && y.in?(0...@map.height*Sizes::TileHeight)
         return GridSquare.new((x/Sizes::TileWidth).to_i,(y/Sizes::TileHeight).to_i)
       else
-        return nil
+        if @current_state.menu
+          @current_state.menu.each do |item|
+            if item.include?(x,y)
+              item.clicked
+              break
+            end
+          end
+        end
       end
     end
 
