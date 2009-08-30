@@ -3,6 +3,7 @@ require 'helper'
 module LD15
   module DigPatterns
     class ForwardBroad
+      attr_reader :title, :directions
       def initialize
         @title = "Forward Broad"
         @directions = [:north,:west,:south,:east]

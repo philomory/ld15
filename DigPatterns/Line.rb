@@ -3,6 +3,7 @@ require 'helper'
 module LD15
   module DigPatterns
     class Line
+      attr_reader :title, :directions
       def initialize(length)
         @length = length
         @title = "Line (#{@length})"

@@ -4,10 +4,10 @@ require 'MoveData'
 module LD15
   class Unit
     
-    attr_reader :map, :x, :y, :facing, :health, :maxhealth, :energy, :maxenergy, :speed, :readiness, :move, :faction
+    attr_reader :map, :x, :y, :facing, :health, :maxhealth, :energy, :maxenergy, :speed, :readiness, :move, :faction, :patterns
     def initialize(map,x,y,facing,faction)
       @map, @x, @y, @facing, @faction = map, x, y, facing, faction
-      %w{MAXHEALTH MAXENERGY SPEED MOVE}.each do |name|
+      %w{MAXHEALTH MAXENERGY SPEED MOVE PATTERNS}.each do |name|
         ivar = '@' + name.downcase
         self.instance_variable_set(ivar,self.class.const_get(name))
       end
