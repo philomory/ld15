@@ -34,13 +34,17 @@ module LD15
       super(860,640,false)
       self.caption = "LD15 Game"
       ImageManager.load_images
-      @current_screen = Game.new('data/level1.txt')
+      self.new_game
       @fps = FPSCounter.new
     end #def initialize
     
     def update
       @fps.register_tick
       @current_screen.update
+    end
+    
+    def new_game
+      @current_screen = Game.new('data/level1.txt')
     end
     
     def draw

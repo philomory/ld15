@@ -1,7 +1,7 @@
 module LD15
   module Behaviors
     module Stalker
-      module_function
+      extend self
       
       def plan(unit)
         # Scoping nonsense for ruby 1.8; 1.9 handles this better.
@@ -11,7 +11,7 @@ module LD15
           walkable = unit.range_data(unit.move*t)
           reachable = unit.reachable_tiles(walkable.available_tiles)
           target = nil
-          available_targets = reachable.units_in_range(unit.map).select {|info| info[:unit].faction != unit.faction}
+          available_targets = reachable.enemies_in_range(unit)
           if available_targets.empty?
             next
           else
@@ -20,17 +20,19 @@ module LD15
           end
         end
         if target && moves == 0
-          return Plan.new(nil,self.action_for_target(target))
+          return Plan.new(nil,self.action_for_target(target[:unit]))
         elsif target && moves == 1
           dest = reachable.paths[target[:square]][0]
           path = (walkable.paths[dest]+[dest])
-          return Plan.new(path,self.action_for_target(target))
+          return Plan.new(path,self.action_for_target(target[:unit]))
         elsif target
           dest = reachable.paths[target[:square]][0]
           path = (walkable.paths[dest]+[dest])[0,unit.move+1]
           return Plan.new(path,nil)
         else
-          return Plan.new(nil,nil)
+          dest = walkable.available_tiles[rand(walkable.available_tiles.length)]
+          path = (walkable.paths[dest]+[dest])[0,unit.move+1]
+          return Plan.new(path,nil)
         end   
       end      
 

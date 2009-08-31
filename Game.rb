@@ -15,10 +15,21 @@ module LD15
     attr_accessor :current_state, :current_unit
     def initialize(level)
       @map = Map.new(level)
-      @map.add_unit(Unit::Digger.new(@map,10,18,:north,Factions::Player))
-      @map.add_unit(Unit::Soldier.new(@map,8,16,:north,Factions::Player))
-      @map.add_unit(Unit::Soldier.new(@map,0,19,:east,Factions::Enemy))
+      self.generate_teams
     end
+    
+    def generate_teams
+      terrain = @map.terrain.to_a.transpose
+      enemy_spaces = terrain[0,4].flatten.select {|tile| tile.is_a?(Terrain::EmptySpace)}.sort_by{|x| rand}.first(5)
+      player_spaces = terrain.reverse[0,4].flatten.select {|tile| tile.is_a?(Terrain::EmptySpace)}.sort_by{|x| rand}.first(5)
+      [[enemy_spaces,Factions::Enemy,:south],[player_spaces,Factions::Player,:north]].each do |spaces,faction,dir|
+        units = [Unit::Soldier,Unit::Soldier,Unit::Soldier,Unit::Digger,Unit::Digger]
+        spaces.each do |space|
+          @map.add_unit(units.pop.new(@map,space.x,space.y,dir,faction))
+        end
+      end
+    end
+    
     def update
       if @current_state
         @current_state.update
@@ -27,11 +38,30 @@ module LD15
         @current_state.update
       end
     end
-    
+  
     def end_turn
       @current_unit.end_turn
       @current_unit = nil
       @current_state = nil
+    end
+    
+    def battle_over?
+      if !@map.all_units.any? {|unit| unit.faction == Factions::Player}
+        @current_state = State::UIDisplayPlayerLoses.new(self)
+        return true
+      elsif !@map.all_units.any? {|unit| unit.faction == Factions::Enemy}
+        @current_state = State::UIDisplayPlayerWins.new(self)
+        return true
+      else
+        return false
+      end
+    end
+    
+    def attacks(attacker,target)
+      damage = [attacker.strength - target.defense,0].max
+      target.hurt_for(damage)
+      attacker.acted
+      @current_state = State::UIDisplayDamageDone.new(self,attacker,target,damage)
     end
     
     def pass_time
@@ -56,7 +86,7 @@ module LD15
         if plan.path
           @current_state = State::AIDisplayMove.new(self,plan)
         elsif plan.action
-          @current_state = State::AIDisplayAction.new(self,plan)
+          @current_state = plan.action.execute(self,unit)
         else
           @current_state = State::AIDisplayEndTurn.new(self)
         end
@@ -69,7 +99,22 @@ module LD15
     
     def draw
       self.draw_map
+      self.highlight_units
       @current_state.draw
+    end
+    
+    def highlight_units
+      @map.all_units.each {|unit| self.highlight_unit(unit)}
+    end
+    
+    def highlight_unit(unit)
+      color = case [(unit == @current_unit),(unit.faction == Factions::Player)]
+      when [true,true]   : Color::ActiveFriendlyHighlight
+      when [true,false]  : Color::ActiveUnfriendlyHighlight
+      when [false,true]  : Color::InactiveFriendlyHighlight
+      when [false,false] : Color::InactiveUnfriendlyHighlight
+      end
+      self.highlight_square(unit.gridsquare,color)
     end
     
     def draw_map

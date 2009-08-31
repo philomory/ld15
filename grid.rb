@@ -38,6 +38,10 @@ module LD15
       end
     end
     
+    def to_a
+      @spaces.dup
+    end
+    
     def flatten
       @spaces.flatten
     end

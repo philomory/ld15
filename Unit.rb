@@ -4,7 +4,8 @@
 module LD15
   class Unit
     
-    attr_reader :map, :x, :y, :facing, :health, :maxhealth, :energy, :maxenergy, :speed, :readiness, :move, :faction, :patterns
+    attr_reader :map, :x, :y, :facing, :health, :maxhealth, :energy, :maxenergy
+    attr_reader :speed, :readiness, :move, :faction, :patterns, :strength, :defense
     attr_writer :facing
     def initialize(map,x,y,facing,faction)
       @map, @x, @y, @facing, @faction = map, x, y, facing, faction
@@ -13,21 +14,36 @@ module LD15
         self.instance_variable_set(ivar,self.class.const_get(name))
       end
       @readiness = 0
-      @healt, @energy = @maxhealth, @maxenergy
+      @health, @energy = @maxhealth, @maxenergy
       @moved, @acted = false, false
     end
     
     def gridsquare
-      GridSquare.new(@x,@y)
+      return GridSquare.new(@x,@y)
+    end
+    
+    def hurt_for(damage)
+      @health -= damage
+      if self.dead?
+        @map.remove_unit(self)
+      end
+    end
+    
+    def alive?
+      return @health > 0
+    end
+    
+    def dead?
+      return !self.alive?
     end
     
     def inspect
       "#<#{self.class}:#{self.object_id.to_s(16)} @x=#{@x}, @y=#{@y}>"
     end
     
-    def available_dig_directions
-      [:north,:south,:east,:west]
-    end
+    #def available_dig_directions
+    #  [:north,:south,:east,:west]
+    #end
     
     def tick
       @readiness += @speed
@@ -55,9 +71,9 @@ module LD15
       if @acted
         @readiness -= 100
       elsif @moved
-        @readiness -= 60
+        @readiness -= 80
       else
-        @readiness -= 30
+        @readiness -= 60
       end
       @acted, @moved = false, false
     end
@@ -85,13 +101,13 @@ module LD15
       return MoveData.new(available_tiles,paths)
     end
     
-    def reachable_tiles(from_tiles)
+    def reachable_tiles(from_tiles=[self.gridsquare])
       reachable = []
       paths = {}
       from_tiles.each do |tile|
         [:north,:south,:east,:west].each do |dir|
           new_tile = tile.send(dir)
-          unless @map.terrain_at(*new_tile).is_a?(OutOfBounds)
+          unless (@map.terrain_at(*new_tile).is_a?(OutOfBounds) || reachable.include?(new_tile))
             reachable << new_tile
             paths[new_tile] = [tile]
           end

@@ -9,7 +9,13 @@ module LD15
     end
     
     def draw_unit_highlight(unit)
-      @game.highlight_square(unit.gridsquare,Color::ActiveUnitHighlight)
+      color = case [(unit == @game.current_unit),(unit.faction == Factions::Player)]
+      when [true,true]   : Color::ActiveFriendlyHighlight
+      when [true,false]  : Color::ActiveUnfriendlyHighlight
+      when [false,true]  : Color::InactiveFriendlyHighlight
+      when [false,false] : Color::InactiveUnfriendlyHighlight
+      end
+      @game.highlight_square(unit.gridsquare,color)
     end
     
     def click

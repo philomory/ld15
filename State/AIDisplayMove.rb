@@ -10,7 +10,7 @@ module LD15
         
         @unit = game.current_unit
         @menu = SidebarMenu.new("AI moves unit.") do |m|
-          m.add("Yes",Gosu::KbEnter,Gosu::KbReturn,Gosu::KbEscape) {self.done}
+          m.add("Continue",Gosu::KbEnter,Gosu::KbReturn,Gosu::KbEscape) {self.done}
         end
       end
       
@@ -18,7 +18,7 @@ module LD15
         @unit.move_to(@dest)
         @plan.path = nil
         if @plan.action
-          @game.current_state = State::AIDisplayAction.new(@game,@plan)
+          @plan.action.execute(@game,@unit)
         else
           @game.current_state = State::AIDisplayEndTurn.new(@game)
         end

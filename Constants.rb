@@ -31,7 +31,11 @@ module LD15
     MoveHighlight = 0x779aFFFF
     ValidDestHighlight = 0xAA002FFF
     InvalidDestHighlight = 0xAADB2400
-    ActiveUnitHighlight = 0xAA00FF00
+    PotentialTargetHighlight = 0x77FF0000
+    ActiveFriendlyHighlight = 0xAA00FF00
+    ActiveUnfriendlyHighlight = 0xAAFF0000
+    InactiveFriendlyHighlight = 0x4400FF00
+    InactiveUnfriendlyHighlight = 0x44FF0000
     SidebarItem = 0xFFFFFFFF
     SidebarItemDisabled = 0xFFAAAAAA
     EffectAreaHighlight = 0xAAFF00FF

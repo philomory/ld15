@@ -15,7 +15,7 @@ module LD15
       '.' => Terrain::EmptySpace
     }
     
-    attr_reader :width, :height
+    attr_reader :width, :height, :terrain
     def initialize(level)
       @terrain = load_data(level)
       
@@ -49,6 +49,11 @@ module LD15
         @terrain[x,y] = Terrain::EmptySpace.new(self,x,y)
       end
     end
+    
+    def remove_unit(unit)
+      @units[*unit.gridsquare] = nil
+    end
+    
     
     def unit_at(x,y)
       if x.in?(0...@width) and y.in?(0...@height)

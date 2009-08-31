@@ -7,7 +7,7 @@ module LD15
         @game = game
         @unit = @game.current_unit
         @menu = SidebarMenu.new("AI is finished turn.") do |m|
-          m.add("Yes",Gosu::KbEnter,Gosu::KbReturn,Gosu::KbEscape) {@game.end_turn}
+          m.add("Continue",Gosu::KbEnter,Gosu::KbReturn,Gosu::KbEscape) {@game.end_turn}
         end
       end
       
