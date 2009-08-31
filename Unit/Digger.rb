@@ -12,7 +12,7 @@ module LD15
       MOVE      = 4
       STRENGTH  = 2
       DEFENSE   = 0
-      AI = Behaviors::Aggressive
+      AI = Behaviors::Excavator
       PATTERNS = [DigPatterns::Line.new(3),DigPatterns::ForwardBroad.new]
       
       def key

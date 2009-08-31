@@ -14,7 +14,7 @@ module LD15
             available_dirt = reachable.dirt_in_range(unit.map)
             if available_dirt.empty?
               next
-            elsif moves = 0
+            elsif moves ==0 0
               action = self.evaluate_dig(unit,unit.gridsquare,available_dirt)
               break
             else
