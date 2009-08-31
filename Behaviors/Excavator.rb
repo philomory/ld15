@@ -4,17 +4,17 @@ module LD15
       extend self
 
       def plan(unit)
-        if @unit.reachable_tiles.enemies_in_range(unit).empty?
-          action, target, moves, reachable, walkable = nil, nil, 0, nil, nil
+        if unit.reachable_tiles.enemies_in_range(unit).empty?
+          action, target_dirt, moves, reachable, walkable = nil, nil, 0, nil, nil
           2.times do |t|
             moves = t
             walkable = unit.range_data(unit.move*t)
             reachable = unit.reachable_tiles(walkable.available_tiles)
-            target = nil
+            target_dirt = nil
             available_dirt = reachable.dirt_in_range(unit.map)
             if available_dirt.empty?
               next
-            elsif moves ==0 0
+            elsif moves == 0
               action = self.evaluate_dig(unit,unit.gridsquare,available_dirt)
               break
             else
@@ -24,10 +24,10 @@ module LD15
           end
           if action
             return Plan.new(nil,action)
-          elsif target
+          elsif target_dirt
             dest = reachable.paths[target_dirt][0]
             path = (walkable.paths[dest]+[dest])
-            action = self.evaluate_digs(unit,dest,target_dirt)
+            action = self.evaluate_dig(unit,dest,target_dirt)
             return Plan.new(path,action)
           else
             dest = walkable.available_tiles[rand(walkable.available_tiles.length)]
@@ -55,6 +55,7 @@ module LD15
       def evaluate_dig(unit,square,available_dirt)
         dirs = [:north,:south,:east,:west].select {|dir| square.send(dir).in?(available_dirt)}
         dir = dirs[rand(dirs.length)]
+        dir = :north if dir.nil?
         pattern = unit.patterns[rand(unit.patterns.length)]
         return Actions::Dig.new(pattern,dir)
       end
